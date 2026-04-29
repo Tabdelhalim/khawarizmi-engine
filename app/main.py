@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -93,4 +93,6 @@ def health() -> dict:
 def ui() -> FileResponse:
     """Serve the preview web UI."""
     index_path = STATIC_DIR / "ui" / "index.html"
+    if not index_path.exists():
+        raise HTTPException(status_code=404, detail="UI not available.")
     return FileResponse(index_path)
