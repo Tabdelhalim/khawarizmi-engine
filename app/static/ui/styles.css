@@ -1,0 +1,330 @@
+/* ── Reset / base ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #d4d0c8;   /* Stata-like Windows-XP grey */
+  --panel-bg: #ffffff;
+  --panel-border: #7b7b7b;
+  --hdr-bg:   #0a3055;
+  --hdr-fg:   #ffffff;
+  --toolbar-bg: #ece9d8;
+  --menubar-bg: #0a3055;
+  --menubar-fg: #ffffff;
+  --cmd-bg:   #ffffff;
+  --cmd-border: #7b7b7b;
+  --status-bg: #0a3055;
+  --status-fg: #ffffff;
+  --results-bg: #ffffff;
+  --results-fg: #000000;
+  --mono: "Consolas", "Courier New", "Lucida Console", monospace;
+  --sans: "Tahoma", "Segoe UI", "Arial", sans-serif;
+  --fs: 12px;
+  --hdr-fs: 11px;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--sans);
+  font-size: var(--fs);
+  background: var(--bg);
+  color: #000;
+  overflow: hidden;
+}
+
+button, input, label { font-family: var(--sans); font-size: var(--fs); }
+
+/* ── App shell ─────────────────────────────────────────── */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ── Menu bar ──────────────────────────────────────────── */
+#menubar {
+  background: var(--menubar-bg);
+  color: var(--menubar-fg);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 3px 8px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #555;
+}
+
+.appname {
+  font-weight: bold;
+  font-size: 12px;
+  white-space: nowrap;
+  color: #fff;
+  margin-right: 8px;
+}
+
+.menus { display: flex; gap: 0; }
+
+.mitem {
+  padding: 2px 8px;
+  cursor: pointer;
+  color: var(--menubar-fg);
+  font-size: var(--fs);
+  border-radius: 0;
+}
+.mitem:hover { background: rgba(255,255,255,0.2); }
+
+/* ── Toolbar ───────────────────────────────────────────── */
+#toolbar {
+  background: var(--toolbar-bg);
+  border-bottom: 1px solid var(--panel-border);
+  padding: 3px 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tbtn {
+  background: #ece9d8;
+  border: 1px solid #7b7b7b;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-size: var(--fs);
+  color: #000;
+  border-radius: 0;
+}
+.tbtn:hover { background: #ddd9c8; }
+.tbtn:active { background: #c8c4b4; }
+.tbtn.tbtn-sep { margin-left: 6px; }
+.upload-label { cursor: pointer; }
+
+#toolStatus {
+  margin-left: 8px;
+  font-size: var(--fs);
+  color: #333;
+  font-style: italic;
+}
+
+/* ── Main 3-column ─────────────────────────────────────── */
+#main {
+  display: grid;
+  grid-template-columns: 180px 1fr 220px;
+  grid-template-rows: 1fr;
+  gap: 3px;
+  padding: 3px;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Panel shell ───────────────────────────────────────── */
+.panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  overflow: hidden;
+  min-height: 0;
+}
+
+.panel-hdr {
+  background: var(--hdr-bg);
+  color: var(--hdr-fg);
+  font-size: var(--hdr-fs);
+  font-weight: bold;
+  padding: 2px 6px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #555;
+}
+
+.hdr-right {
+  font-weight: normal;
+  font-size: 10px;
+  color: #ccc;
+}
+
+.panel-body {
+  flex: 1;
+  overflow: auto;
+  padding: 2px;
+  min-height: 0;
+}
+
+.tbl-wrap {
+  overflow: auto;
+  padding: 0;
+}
+
+/* ── History panel (left) ──────────────────────────────── */
+#history-panel {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+#historyList {
+  list-style: none;
+  padding: 2px 0;
+}
+
+#historyList li {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 1px 6px;
+  cursor: pointer;
+  color: #003399;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid #eee;
+}
+#historyList li:hover { background: #ddeeff; }
+
+/* ── Center column ─────────────────────────────────────── */
+#center {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+#data-editor {
+  flex: 1;
+  min-height: 0;
+}
+
+#results-panel {
+  flex: 1;
+  min-height: 0;
+}
+
+.results-body {
+  background: var(--results-bg);
+  padding: 4px;
+}
+
+#resultsOut {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--results-fg);
+  white-space: pre;
+  margin: 0;
+  min-height: 100%;
+}
+
+/* ── Right column ──────────────────────────────────────── */
+#right {
+  grid-column: 3;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+#vars-panel {
+  flex: 1;
+  min-height: 0;
+}
+
+#props-panel {
+  height: 160px;
+  flex-shrink: 0;
+}
+
+/* ── Tables ────────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs);
+}
+
+th {
+  background: #e8e4d8;
+  border: 1px solid #bbb;
+  padding: 2px 5px;
+  text-align: left;
+  font-weight: bold;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+td {
+  border: 1px solid #ccc;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
+
+tr:nth-child(even) td { background: #f4f2ec; }
+tr:hover td { background: #ddeeff; }
+
+/* Row-number column */
+td:first-child, th:first-child {
+  background: #e8e4d8;
+  text-align: right;
+  color: #555;
+  font-size: 10px;
+  min-width: 30px;
+}
+
+/* ── Variables table ───────────────────────────────────── */
+#varsTable td.sel { background: #cce0ff !important; }
+#varsTable tr { cursor: pointer; }
+#varsTable td:first-child { font-family: var(--mono); font-size: 11px; }
+
+/* ── Properties table ──────────────────────────────────── */
+.props-tbl { width: 100%; border-collapse: collapse; }
+.props-tbl td { border: none; padding: 2px 4px; font-size: 11px; }
+.pk { color: #444; font-weight: bold; width: 56px; white-space: nowrap; }
+.pv { color: #000; }
+
+/* ── Command bar ───────────────────────────────────────── */
+#cmd-bar {
+  display: flex;
+  align-items: center;
+  background: var(--cmd-bg);
+  border-top: 1px solid var(--cmd-border);
+  padding: 3px 6px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.cmd-prompt {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: bold;
+  color: #0a3055;
+  user-select: none;
+}
+
+#cmdInput {
+  flex: 1;
+  border: 1px solid var(--cmd-border);
+  padding: 2px 5px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #000;
+  border-radius: 0;
+  outline: none;
+}
+#cmdInput:focus { border-color: #0a3055; }
+
+/* ── Status bar ────────────────────────────────────────── */
+#statusbar {
+  background: var(--status-bg);
+  color: var(--status-fg);
+  font-size: 11px;
+  padding: 2px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}

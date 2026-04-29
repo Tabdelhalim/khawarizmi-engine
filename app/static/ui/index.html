@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khawarizmi Engine</title>
+  <link rel="stylesheet" href="/static/ui/styles.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- Menu bar -->
+  <div id="menubar">
+    <span class="appname">Khawarizmi Engine 3.0</span>
+    <div class="menus">
+      <span class="mitem">File</span>
+      <span class="mitem">Edit</span>
+      <span class="mitem">Data</span>
+      <span class="mitem">Statistics</span>
+      <span class="mitem">Time&nbsp;Series</span>
+      <span class="mitem">Graphics</span>
+      <span class="mitem">Help</span>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div id="toolbar">
+    <label class="tbtn upload-label" title="Open CSV file">
+      Open
+      <input type="file" id="fileInput" accept=".csv,text/csv" hidden />
+    </label>
+    <button class="tbtn" id="btnSample">Load Sample</button>
+    <button class="tbtn tbtn-sep" id="btnSummarize">Summarize</button>
+    <button class="tbtn" id="btnDescribe">Describe</button>
+    <button class="tbtn tbtn-sep" id="btnAutoArima">Auto-ARIMA</button>
+    <button class="tbtn" id="btnClear">Clear Results</button>
+    <span id="toolStatus"></span>
+  </div>
+
+  <!-- Three-column main area -->
+  <div id="main">
+
+    <!-- LEFT: Command History -->
+    <div id="history-panel" class="panel">
+      <div class="panel-hdr">Command History</div>
+      <div class="panel-body">
+        <ul id="historyList"></ul>
+      </div>
+    </div>
+
+    <!-- CENTER: Data Editor (top) + Results (bottom) -->
+    <div id="center">
+
+      <div id="data-editor" class="panel">
+        <div class="panel-hdr">
+          Data Editor
+          <span id="dataStats" class="hdr-right"></span>
+        </div>
+        <div class="panel-body tbl-wrap">
+          <table id="dataTable">
+            <thead><tr><th>#</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="results-panel" class="panel">
+        <div class="panel-hdr">Results</div>
+        <div class="panel-body results-body">
+          <pre id="resultsOut">  Khawarizmi Engine 3.0  --  Stata-style interface
+  -------------------------------------------------------
+  Load a dataset then type a command below and press Enter.
+
+  Examples:
+    describe
+    summarize
+    summarize gdp
+    arima gdp
+    arima gdp, arima(1,1,1)
+    adf gdp
+    acf gdp
+    auto_arima gdp
+    reg y x1 x2
+</pre>
+        </div>
+      </div>
+
+    </div><!-- /center -->
+
+    <!-- RIGHT: Variables (top) + Properties (bottom) -->
+    <div id="right">
+
+      <div id="vars-panel" class="panel">
+        <div class="panel-hdr">Variables</div>
+        <div class="panel-body tbl-wrap">
+          <table id="varsTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Label</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="props-panel" class="panel">
+        <div class="panel-hdr">Properties</div>
+        <div class="panel-body">
+          <table class="props-tbl">
+            <tbody>
+              <tr><td class="pk">Dataset</td><td class="pv" id="pDataset">–</td></tr>
+              <tr><td class="pk">Obs</td>    <td class="pv" id="pObs">–</td></tr>
+              <tr><td class="pk">Vars</td>   <td class="pv" id="pVars">–</td></tr>
+              <tr><td class="pk">Selected</td><td class="pv" id="pSelected">–</td></tr>
+              <tr><td class="pk">Type</td>   <td class="pv" id="pType">–</td></tr>
+              <tr><td class="pk">Range</td>  <td class="pv" id="pRange">–</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /right -->
+  </div><!-- /main -->
+
+  <!-- Command input -->
+  <div id="cmd-bar">
+    <span class="cmd-prompt">.</span>
+    <input id="cmdInput" type="text" autocomplete="off" spellcheck="false"
+           placeholder="Type a command and press Enter" />
+  </div>
+
+  <!-- Status bar -->
+  <div id="statusbar">
+    <span id="sbLeft">No data loaded</span>
+    <span id="sbRight">Khawarizmi Engine 3.0</span>
+  </div>
+
+</div>
+<script src="/static/ui/app.js"></script>
+</body>
+</html>
