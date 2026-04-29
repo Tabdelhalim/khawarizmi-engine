@@ -9,8 +9,12 @@ Interactive API docs:  http://localhost:8000/docs
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.routers.arima_router import router as arima_router
 from app.routers.auto_arima_router import router as auto_arima_router
@@ -33,6 +37,12 @@ app = FastAPI(
         "name": "MIT",
     },
 )
+
+BASE_DIR = Path(__file__).resolve().parent
+STATIC_DIR = BASE_DIR / "static"
+
+if STATIC_DIR.exists():
+    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -77,3 +87,10 @@ def health() -> dict:
             "/api/v1/auto-arima",
         ],
     }
+
+
+@app.get("/ui", include_in_schema=False)
+def ui() -> FileResponse:
+    """Serve the preview web UI."""
+    index_path = STATIC_DIR / "ui" / "index.html"
+    return FileResponse(index_path)

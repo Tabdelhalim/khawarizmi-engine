@@ -40,6 +40,12 @@ uvicorn app.main:app --reload
 
 The interactive API docs are available at **http://localhost:8000/docs**.
 
+### 3 – Open the UI (preview)
+
+Visit **http://localhost:8000/ui** to access the desktop-style interface shell.
+You can upload a CSV file to populate the data grid and run Auto-ARIMA or
+diagnostics directly from the toolbar.
+
 ---
 
 ## API reference
