@@ -3,247 +3,142 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Khawarizmi Engine 3.0</title>
+  <title>Khawarizmi Engine</title>
   <link rel="stylesheet" href="/static/ui/styles.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="brand">
-        <div class="logo">K</div>
-        <div class="brand-text">
-          <div class="brand-title">Khawarizmi Engine 3.0</div>
-          <div class="brand-subtitle">Professional Econometric &amp; Time Series Platform</div>
-        </div>
-      </div>
-      <div class="top-actions">
-        <button class="chip">Light</button>
-        <div class="window-controls">
-          <span>—</span>
-          <span>▢</span>
-          <span>✕</span>
-        </div>
-      </div>
-    </header>
+<div id="app">
 
-    <div class="menu-bar">
-      <div class="menu-items">
-        <button class="menu-item">File</button>
-        <button class="menu-item">Edit</button>
-        <button class="menu-item">Data</button>
-        <button class="menu-item">Tools</button>
-        <button class="menu-item">Statistics</button>
-        <button class="menu-item">Graphs</button>
-        <button class="menu-item">Models</button>
-        <button class="menu-item">Time Series</button>
-        <button class="menu-item">Panel Data</button>
-        <button class="menu-item">Machine Learning</button>
-        <button class="menu-item">View</button>
-        <button class="menu-item">Window</button>
-        <button class="menu-item">Help</button>
-      </div>
-      <div class="menu-search">
-        <input type="search" placeholder="Search commands or variables" aria-label="Search commands or variables" />
+  <!-- Menu bar -->
+  <div id="menubar">
+    <span class="appname">Khawarizmi Engine 3.0</span>
+    <div class="menus">
+      <span class="mitem">File</span>
+      <span class="mitem">Edit</span>
+      <span class="mitem">Data</span>
+      <span class="mitem">Statistics</span>
+      <span class="mitem">Time&nbsp;Series</span>
+      <span class="mitem">Graphics</span>
+      <span class="mitem">Help</span>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div id="toolbar">
+    <label class="tbtn upload-label" title="Open CSV file">
+      Open
+      <input type="file" id="fileInput" accept=".csv,text/csv" hidden />
+    </label>
+    <button class="tbtn" id="btnSample">Load Sample</button>
+    <button class="tbtn tbtn-sep" id="btnSummarize">Summarize</button>
+    <button class="tbtn" id="btnDescribe">Describe</button>
+    <button class="tbtn tbtn-sep" id="btnAutoArima">Auto-ARIMA</button>
+    <button class="tbtn" id="btnClear">Clear Results</button>
+    <span id="toolStatus"></span>
+  </div>
+
+  <!-- Three-column main area -->
+  <div id="main">
+
+    <!-- LEFT: Command History -->
+    <div id="history-panel" class="panel">
+      <div class="panel-hdr">Command History</div>
+      <div class="panel-body">
+        <ul id="historyList"></ul>
       </div>
     </div>
 
-    <div class="toolbar">
-      <div class="tool-group">
-        <button class="tool-button">Open</button>
-        <label class="tool-button upload">
-          Upload
-          <input type="file" id="fileInput" accept=".csv,text/csv" hidden />
-        </label>
-        <button class="tool-button" id="sampleDataBtn">Sample Data</button>
-        <button class="tool-button">Import</button>
-        <button class="tool-button">Export</button>
-      </div>
-      <div class="tool-group">
-        <button class="tool-button primary" id="runAutoBtn">Run</button>
-        <button class="tool-button" id="runDiagnosticsBtn">Diagnostics</button>
-        <button class="tool-button">Graph</button>
-        <button class="tool-button">Results</button>
-        <button class="tool-button">AI Assistant</button>
-        <button class="tool-button">Auto Analysis</button>
-        <button class="tool-button">Report</button>
-      </div>
-    </div>
+    <!-- CENTER: Data Editor (top) + Results (bottom) -->
+    <div id="center">
 
-    <div class="main-layout">
-      <aside class="sidebar">
-        <div class="panel-title">Navigation</div>
-        <div class="nav-section">
-          <div class="nav-header">Quick Access</div>
-          <button class="nav-item active">Home</button>
-          <button class="nav-item">Upload Data</button>
-          <button class="nav-item">Data Explorer</button>
-          <button class="nav-item">Prepare Data</button>
+      <div id="data-editor" class="panel">
+        <div class="panel-hdr">
+          Data Editor
+          <span id="dataStats" class="hdr-right"></span>
         </div>
-        <div class="nav-section">
-          <div class="nav-header">Econometric Analysis</div>
-          <button class="nav-item">Cross Section</button>
-          <button class="nav-item">Panel Data</button>
-          <button class="nav-item">Time Series</button>
-          <button class="nav-item">Instrumental Variables</button>
-          <button class="nav-item">Count Data</button>
-          <button class="nav-item">Survival Analysis</button>
+        <div class="panel-body tbl-wrap">
+          <table id="dataTable">
+            <thead><tr><th>#</th></tr></thead>
+            <tbody></tbody>
+          </table>
         </div>
-        <div class="nav-section">
-          <div class="nav-header">Machine Learning</div>
-          <button class="nav-item">Models</button>
-          <button class="nav-item">Prediction</button>
-        </div>
-        <div class="nav-section">
-          <div class="nav-header">Diagnostics</div>
-          <button class="nav-item">Tests</button>
-          <button class="nav-item">Residual Analysis</button>
-        </div>
-        <div class="nav-section">
-          <div class="nav-header">Forecasting</div>
-          <button class="nav-item">Forecast</button>
-          <button class="nav-item">Accuracy</button>
-        </div>
-        <div class="nav-section">
-          <div class="nav-header">Reporting</div>
-          <button class="nav-item">Report Generator</button>
-          <button class="nav-item">Export Results</button>
-        </div>
-      </aside>
+      </div>
 
-      <main class="workspace">
-        <div class="workspace-tabs">
-          <button class="tab active">Data Editor (macro_data.dta)</button>
-          <button class="tab">+</button>
+      <div id="results-panel" class="panel">
+        <div class="panel-hdr">Results</div>
+        <div class="panel-body results-body">
+          <pre id="resultsOut">  Khawarizmi Engine 3.0  --  Stata-style interface
+  -------------------------------------------------------
+  Load a dataset then type a command below and press Enter.
+
+  Examples:
+    describe
+    summarize
+    summarize gdp
+    arima gdp
+    arima gdp, arima(1,1,1)
+    adf gdp
+    acf gdp
+    auto_arima gdp
+    reg y x1 x2
+</pre>
         </div>
-        <div class="workspace-toolbar">
-          <div class="filters">
-            <input type="search" placeholder="Filter variables here" aria-label="Filter variables" />
-            <input type="search" placeholder="Filter observations" aria-label="Filter observations" />
-          </div>
-          <div class="stats" id="datasetStats">Obs: 0 &nbsp; Vars: 0</div>
-        </div>
-        <div class="data-grid" id="dataGrid">
-          <table>
+      </div>
+
+    </div><!-- /center -->
+
+    <!-- RIGHT: Variables (top) + Properties (bottom) -->
+    <div id="right">
+
+      <div id="vars-panel" class="panel">
+        <div class="panel-hdr">Variables</div>
+        <div class="panel-body tbl-wrap">
+          <table id="varsTable">
             <thead>
               <tr>
-                <th>#</th>
-                <th>date</th>
-                <th>gdp</th>
-                <th>cpi</th>
-                <th>unemp</th>
-                <th>interest</th>
-                <th>m2</th>
-                <th>exports</th>
-                <th>imports</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Label</th>
               </tr>
             </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="props-panel" class="panel">
+        <div class="panel-hdr">Properties</div>
+        <div class="panel-body">
+          <table class="props-tbl">
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>2000q1</td>
-                <td>2143.2</td>
-                <td>88.7</td>
-                <td>8.6</td>
-                <td>6.12</td>
-                <td>10234</td>
-                <td>245.3</td>
-                <td>302.1</td>
-              </tr>
+              <tr><td class="pk">Dataset</td><td class="pv" id="pDataset">–</td></tr>
+              <tr><td class="pk">Obs</td>    <td class="pv" id="pObs">–</td></tr>
+              <tr><td class="pk">Vars</td>   <td class="pv" id="pVars">–</td></tr>
+              <tr><td class="pk">Selected</td><td class="pv" id="pSelected">–</td></tr>
+              <tr><td class="pk">Type</td>   <td class="pv" id="pType">–</td></tr>
+              <tr><td class="pk">Range</td>  <td class="pv" id="pRange">–</td></tr>
             </tbody>
           </table>
         </div>
+      </div>
 
-        <div class="results-tabs">
-          <button class="tab active" data-tab="results">Results</button>
-          <button class="tab" data-tab="graphs">Graphs</button>
-          <button class="tab" data-tab="assistant">AI Assistant</button>
-          <button class="tab" data-tab="report">Report</button>
-        </div>
-        <div class="results-pane">
-          <div class="pane active" id="results">
-            <pre id="resultsOutput">Run Auto-ARIMA to populate model output here.</pre>
-          </div>
-          <div class="pane" id="graphs">
-            <div class="placeholder">
-              <h3>Graphs Workspace</h3>
-              <p>Time series plots and diagnostics will render here.</p>
-            </div>
-          </div>
-          <div class="pane" id="assistant">
-            <div class="placeholder">
-              <h3>AI Assistant</h3>
-              <p>Ask questions about your model and get guided analysis.</p>
-            </div>
-          </div>
-          <div class="pane" id="report">
-            <div class="placeholder">
-              <h3>Report Builder</h3>
-              <p>Generate structured reports with charts and tables.</p>
-            </div>
-          </div>
-        </div>
-      </main>
+    </div><!-- /right -->
+  </div><!-- /main -->
 
-      <aside class="inspector">
-        <section class="panel">
-          <div class="panel-header">Variables</div>
-          <div class="panel-body">
-            <input type="search" class="panel-search" placeholder="Filter variables" aria-label="Filter variables" />
-            <table class="panel-table" id="variablesTable">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>Name</th>
-                  <th>Label</th>
-                  <th>Type</th>
-                  <th>Format</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-header">Properties</div>
-          <div class="panel-body" id="propertiesPanel">
-            <div class="property-row"><span>Dataset</span><span id="propName">macro_data.dta</span></div>
-            <div class="property-row"><span>Label</span><span id="propLabel">Macroeconomic Quarterly Data</span></div>
-            <div class="property-row"><span>Observations</span><span id="propObs">0</span></div>
-            <div class="property-row"><span>Variables</span><span id="propVars">0</span></div>
-            <div class="property-row"><span>Size</span><span id="propSize">0 KB</span></div>
-            <div class="property-row"><span>Data Type</span><span id="propType">Time Series</span></div>
-            <div class="property-row"><span>Time Variable</span><span id="propTime">date</span></div>
-            <div class="property-row"><span>Range</span><span id="propRange">-</span></div>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-header">Command History</div>
-          <div class="panel-body">
-            <input type="search" class="panel-search" placeholder="Filter commands" aria-label="Filter commands" />
-            <table class="panel-table" id="commandHistory">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Command</th>
-                  <th>_rc</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </section>
-      </aside>
-    </div>
-
-    <footer class="status-bar">
-      <div class="status-left" id="statusLeft">Data: macro_data.dta</div>
-      <div class="status-center" id="statusCenter">Mode: Analysis &nbsp; Time Series (Quarterly)</div>
-      <div class="status-right" id="statusRight">CAP &nbsp; NUM &nbsp; INS</div>
-    </footer>
+  <!-- Command input -->
+  <div id="cmd-bar">
+    <span class="cmd-prompt">.</span>
+    <input id="cmdInput" type="text" autocomplete="off" spellcheck="false"
+           placeholder="Type a command and press Enter" />
   </div>
 
-  <script src="/static/ui/app.js"></script>
+  <!-- Status bar -->
+  <div id="statusbar">
+    <span id="sbLeft">No data loaded</span>
+    <span id="sbRight">Khawarizmi Engine 3.0</span>
+  </div>
+
+</div>
+<script src="/static/ui/app.js"></script>
 </body>
 </html>
