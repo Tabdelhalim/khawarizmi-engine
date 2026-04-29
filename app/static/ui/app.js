@@ -190,9 +190,9 @@ const updateProperties = () => {
 const updateStats = () => {
   const obs = state.rows.length;
   const vars = state.headers.length;
-  document.getElementById("datasetStats").textContent = `Obs: ${obs} \u00b7 Vars: ${vars}`;
+  document.getElementById("datasetStats").textContent = `Obs: ${obs} · Vars: ${vars}`;
   document.getElementById("statusLeft").textContent = `Data: ${state.name}`;
-  document.getElementById("statusCenter").textContent = `Mode: Analysis \u00b7 Time Series (Quarterly)`;
+  document.getElementById("statusCenter").textContent = `Mode: Analysis · Time Series (Quarterly)`;
 };
 
 const renderCommandHistory = () => {
